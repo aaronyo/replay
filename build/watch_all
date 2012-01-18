@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# run from replay project's root directory
+
+coffee_cmd="coffee --watch --compile --output replay/static/js replay/coffee"
+eco_cmd="build/eco_watch replay/eco/ replay/static/js/"
+
+echo $coffee_cmd
+$coffee_cmd &
+echo $eco_cmd
+$eco_cmd &
