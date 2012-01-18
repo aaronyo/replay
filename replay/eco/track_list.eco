@@ -1,0 +1,14 @@
+
+<% for track in @tracks: %>
+<barf>
+  
+  
+<table>
+  <tr>
+    <td><%= track.artist %> - <%= track.album %></td>
+  </tr>
+  <tr>
+    <td><%= track.track %></td>
+  </tr>
+</table>
+<% end %>
