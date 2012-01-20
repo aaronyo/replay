@@ -1,14 +1,10 @@
-
 <% for track in @tracks: %>
-<barf>
-  
-  
-<table>
-  <tr>
-    <td><%= track.artist %> - <%= track.album %></td>
-  </tr>
-  <tr>
-    <td><%= track.track %></td>
-  </tr>
-</table>
+<div class="track">
+  <img class="track-cover" src="<%- track.cover_url %>" />
+  <div class="track-info">
+    <div class="artist"><%= track.artist %></div>
+    <div class="album-title"> <%= track.album_title %></div>
+    <a class="track-title" id="<%= track.track_key %>" href="#"><%= track.track_number %>. <%= track.track_title %></a>
+  </div>
+</div>
 <% end %>

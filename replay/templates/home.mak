@@ -6,13 +6,15 @@
   <meta http-equiv="Expires" content="-1">
   <meta http-equiv="Cache-Control" content="no-cache">  <script type="text/javascript"
           src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js" ></script>
-  <script type="text/javascript"
-          src="/static/js/main.js" ></script>
-  <script type="text/javascript"
-          src="/static/js/track_list.js"></script>
+  <script type="text/javascript" src="/static/js/main.js" ></script>
+  <script type="text/javascript" src="/static/js/track_list.js" ></script>
+  <link type="text/css" href="/static/css/main.css" rel="stylesheet"/>
 </head>
 <body>
-  <input type="text" id="search_field" size=80/>
-  <button id="track_search"> Search </button>
+  <div id="track_search">
+    <input type="text" id="track_search_field" value="Dire Straits Money for Nothing" />
+    <button id="track_search_btn"> Search </button>
+  </div>
+  <div id="track-list"></div>
 </body>
 </html>
