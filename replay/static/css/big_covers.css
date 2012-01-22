@@ -1,0 +1,40 @@
+.track { 
+  position:relative;
+  float: left;
+  width: 214px;
+  height: 214px;
+ }
+
+.track-cover {
+   float: left;
+   width: 200px;
+   height: 200px;
+   margin: 5px;
+   border-style: solid;
+   border-width: 2px;
+   border-color: #ccc;
+}
+   
+.track-info {
+  position:absolute;
+  margin: 5px;
+  bottom: 7px;
+  left: 7px;
+  width: 180px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px;
+}
+
+.track .track-title {
+  color: #fff;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.track .album-title, .track .artist {
+  color: #ddd;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: block;
+}

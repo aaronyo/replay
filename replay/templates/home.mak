@@ -8,7 +8,9 @@
           src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js" ></script>
   <script type="text/javascript" src="/static/js/main.js" ></script>
   <script type="text/javascript" src="/static/js/track_list.js" ></script>
+  <script type="text/javascript" src="/static/js/3p/jquery.rdio.js" ></script>
   <link type="text/css" href="/static/css/main.css" rel="stylesheet"/>
+  <link type="text/css" href="/static/css/small_covers.css" rel="stylesheet"/>
 </head>
 <body>
   <div id="track_search">
@@ -16,5 +18,6 @@
     <button id="track_search_btn"> Search </button>
   </div>
   <div id="track-list"></div>
+  <div id="rdio-player"></div>
 </body>
 </html>

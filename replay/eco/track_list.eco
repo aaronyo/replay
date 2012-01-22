@@ -1,10 +1,13 @@
 <% for track in @tracks: %>
-<div class="track">
+<div class="track" id="<%= track.track_key %>">
   <img class="track-cover" src="<%- track.cover_url %>" />
   <div class="track-info">
     <div class="artist"><%= track.artist %></div>
     <div class="album-title"> <%= track.album_title %></div>
-    <a class="track-title" id="<%= track.track_key %>" href="#"><%= track.track_number %>. <%= track.track_title %></a>
+    <div class="track-title"><%= track.track_number %>. <%= track.track_title %></div>
+    <a class="track-button add" href="#">+</a>
+    <a class="track-button play" href="#">&gt;</a>
+    <a class="track-button bump" href="#">b</a>
   </div>
 </div>
 <% end %>

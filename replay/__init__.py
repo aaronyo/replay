@@ -10,5 +10,6 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('track-search', '/track-search')
+    config.add_route('similar-tracks', '/similar-tracks')
     config.scan()
     return config.make_wsgi_app()

@@ -10,6 +10,10 @@ class RdioService(object):
     def track_search(self, query, limit):
         results = self.rdio_websvc.call('search', query=query, types='Track', count=limit)
         return [self._build_track(r) for r in results['results']]
+    
+    def get_tracks(self, track_keys):
+        results = self.rdio_websvc.call('get', keys=','.join(track_keys))
+        return [self._build_track(r) for r in results.values()]
         
     @staticmethod
     def _build_track(rdio_track):
@@ -21,4 +25,4 @@ class RdioService(object):
                  'track_number': rt['trackNum'],
                  'album_key': rt['albumKey'],
                  'artist_key': rt['artistKey'],
-                 'track_key': rt['key'], }
+                 'track_key': rt['key']}
