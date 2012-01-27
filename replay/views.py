@@ -21,8 +21,15 @@ def _get_echo_service():
     return _echo_service    
     
 @view_config(route_name='home', renderer='home.mak')
-def my_view(request):
-    return {'project':'mak replay'}
+def home(request):
+    style = request.params.get('style', 'small')
+    return {'track_style': style+'_covers'}
+
+@view_config(route_name='bookmarklet', renderer='bookmarklet.mak')
+def bookmarklet(request):
+    style = request.params.get('style', 'small')
+    print request.params['track']
+    return {'track_style': style+'_covers'}
 
 @view_config(route_name='track-search', renderer='json')
 def track_search(request):

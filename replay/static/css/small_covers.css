@@ -1,3 +1,9 @@
+#browse_list {
+  float: left;
+  width: 500px;
+  margin-right: 40px;
+}
+
 .track { 
   float: left;
   width: 240px;
@@ -6,7 +12,7 @@
   margin-right: 10px;
  }
 
-.track-cover {
+.track_cover {
    float: left;
    width: 50px;
    height: 50px;
@@ -22,13 +28,13 @@
   visibility:hidden;
 }
 
-.track-info {
+.track_info {
   position:relative;
   margin-top: 2px;
   vertical-align: middle
 }
 
-.track .track-title {
+.track .track_title {
   font-size: 14px;
   display: block;
   overflow: hidden;
@@ -58,28 +64,37 @@ a.bump {
   bottom : 4px;
 }
 
-a.track-button:link {
+a.track_button:link {
   text-decoration: none;
   color: #69c;
   background: rgba(255, 255, 255, 0.7);
 }
 
-a.track-button:visited {
+a.track_button:visited {
   text-decoration: none;
   color: #69c;
 }
 
-a.track-button:hover {
+a.track_button:hover {
   text-decoration: none;
   color: #c96;
 }
 
-
-.track .album-title, .track .artist {
+.track .album_title, .track .artist {
   font-size: 12px;
   margin-bottom: 2px;
   color: #666;
   display: block;
   overflow: hidden;
   text-overflow: ellipsis
+}
+
+#play_list {
+  float: left;
+  width: 250px;
+}
+
+#play_list a.track_button {
+  display: none;
+  float: left;
 }

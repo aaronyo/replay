@@ -1,3 +1,7 @@
+body {
+  width: 1200px;
+}
+
 .track { 
   position:relative;
   float: left;
@@ -5,7 +9,7 @@
   height: 214px;
  }
 
-.track-cover {
+.track_cover {
    float: left;
    width: 200px;
    height: 200px;
@@ -15,7 +19,7 @@
    border-color: #ccc;
 }
    
-.track-info {
+.track_info {
   position:absolute;
   margin: 5px;
   bottom: 7px;
@@ -25,15 +29,15 @@
   padding: 5px;
 }
 
-.track .track-title {
+.track .track_title {
   color: #fff;
   overflow:hidden;
   text-overflow: ellipsis;
   display: block;
 }
 
-.track .album-title, .track .artist {
-  color: #ddd;
+.track .album_title, .track .artist {
+  color: #bbb;
   overflow:hidden;
   text-overflow: ellipsis;
   display: block;

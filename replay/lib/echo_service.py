@@ -13,7 +13,6 @@ def setup( api_key=None,
 class EchoService(object):
     def __init__(self):
         pass
-        
     def lookup(self, artist, track_title, key_space=None):
         if key_space:
             key_space_args={'buckets': ['id:'+key_space],
