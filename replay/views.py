@@ -28,8 +28,9 @@ def home(request):
 @view_config(route_name='bookmarklet', renderer='bookmarklet.mak')
 def bookmarklet(request):
     style = request.params.get('style', 'small')
-    print request.params['track']
-    return {'track_style': style+'_covers'}
+    print 'track_key: ' + request.params['track_key']
+    return { 'track_style': style+'_covers',
+             'track_key': request.params['track_key'] }
 
 @view_config(route_name='track-search', renderer='json')
 def track_search(request):
@@ -45,8 +46,6 @@ def similar_tracks(request):
     p = request.params
     print "Similar: " + str(p)
 
-    artist = p['artist']
-    track_title = p['track_title']
     track_key = 'rdio-us-streaming:song:' + p.get('track_key', None)
 
     rdio_keys = _get_echo_service().similar_track_keys(track_key, _echo_catalog,

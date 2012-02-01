@@ -3,9 +3,15 @@
 # run from replay project's root directory
 
 coffee_cmd="coffee --watch --compile --output replay/static/js replay/coffee"
+coffee_cmd2=\
+"coffee --watch --compile \
+--output replay/chrome_extension/package \
+replay/chrome_extension/coffee"
 eco_cmd="build/eco_watch replay/eco/ replay/static/js/"
 
 echo $coffee_cmd
 $coffee_cmd &
+echo $coffee_cmd2
+$coffee_cmd2 &
 echo $eco_cmd
 $eco_cmd &

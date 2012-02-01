@@ -1,0 +1,13 @@
+{
+  "name": "Replay",
+  "version": "1.0",
+  "description": "Find similar tracks you've listened to.",
+  "permissions": [ "http://api.flickr.com/", "http://localhost/"],
+  "content_scripts": [
+    {
+      "matches": ["http://www.rdio.com/*"],
+      "css": ["small_covers.css"],
+      "js": ["jquery.js", "replay.js", "track.js", "replay_extension.js"]
+    }
+  ]
+}

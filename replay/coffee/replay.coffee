@@ -2,11 +2,11 @@
 g = {}
 g._playback_token = 'GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc='
 window.main_g = g
+base_url = 'http://localhost:6543'
 
 
-class Player
+class GUIPlayer
   constructor: (playback_token) ->
-    console.log('here')
     @rdio_player = $('#rdio_player').rdio playback_token
     @current_track = null
     @bar_width = parseInt( $('#position_bar').css 'width' )
@@ -35,6 +35,11 @@ class Player
     console.log(pos)
     @rdio_player.seek(pos)
     
+class APIPlayer
+  constructor: (playback_token) ->
+
+  play: (track_key) =>
+    window.API.player.play(track_key)
 
 
 call_search = ->
@@ -43,14 +48,15 @@ call_search = ->
   request.success show_tracks 
   request.error (req, status, error) -> $('body').append 'Error: ' + error
   
-call_similar_tracks = (track) ->
-  request = $.get '/similar-tracks',
-    {track_key: track.track_key
-    artist: track.artist
-    track_title: track.track_title}
+call_similar_tracks = (track_key) ->
+  request = $.get base_url + '/similar-tracks',
+    {'track_key': track_key}
+  console.log(request)
   request.success update_tracks
   request.success -> show_tracks g.current_tracks
   request.error (req, status, error) -> $('body').append 'Error: ' + error
+
+window.call_similar_tracks = call_similar_tracks
   
 follow_track = (track_key) ->
   tracks = g.current_tracks
@@ -62,7 +68,7 @@ follow_track = (track_key) ->
     if t.track_key == track_key
       g.selected_track = t
       g.selected_track_idx = i
-      call_similar_tracks t
+      call_similar_tracks t.track_key
       break
   return false
 
@@ -73,7 +79,7 @@ add_track = (track_key) ->
       $('#play_list').append($(window.ecoTemplates['track'] {'track': t}))
       break
     
-  update_tracks = (data) ->
+update_tracks = (data) ->
   if g.selected_track?
     data[g.selected_track_idx] = g.selected_track
   g.current_tracks = data
@@ -90,12 +96,12 @@ show_tracks = (tracks) ->
   track_divs = []
   for track in tracks
     track_divs.push $(window.ecoTemplates['track'] {'track': track})
-  console.log(track_divs)
+#  console.log(track_divs)
   for td in track_divs
     if not (g.selected_track? and g.selected_track.track_key == td.attr('id'))
       td.fadeTo(0, 0.0)
       hide_buttons (td)
-  $('#browse_list').empty()  
+  $('#browse_list').empty()
   $('#browse_list').append track_divs...
   
   for track in track_divs
@@ -109,7 +115,13 @@ show_tracks = (tracks) ->
       
 
 jQuery ($) ->
-  g.player = new Player g._playback_token
-  $('#track_search_btn').click call_search
-  $('#play_list' ).sortable();
-  $('#play_list').disableSelection();
+  context = $('#context').attr('value')
+  if context == 'bookmarklet'
+    g.player = new APIPlayer
+    track_key = $('#track_key').attr('value')
+    call_similar_tracks track_key
+  else if context == 'home'
+    g.player = new GUIPlayer g._playback_token
+#  $('#track_search_btn').click call_search
+#  $('#play_list' ).sortable();
+#  $('#play_list').disableSelection();

@@ -1,0 +1,100 @@
+#browse_list {
+  float: left;
+  width: 500px;
+  margin-right: 40px;
+}
+
+.track { 
+  float: left;
+  width: 240px;
+  height: 50px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+ }
+
+.track_cover {
+   float: left;
+   width: 50px;
+   height: 50px;
+   margin-right: 10px;
+   margin-bottom: 10px;
+   padding: 2px;
+   border-style: solid;
+   border-width: 1px;
+   border-color: #999;
+ }
+ 
+.bogus {
+  visibility:hidden;
+}
+
+.track_info {
+  position:relative;
+  margin-top: 2px;
+  vertical-align: middle
+}
+
+.track .track_title {
+  font-size: 14px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+a.add {
+  position:absolute;
+  font-size: 30px;
+  right: 10px;
+  top : 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+a.play {
+  position:absolute;
+  font-size: 16px;
+  right: 0px;
+  top : 6px;
+}
+
+a.bump {
+  position:absolute;
+  font-size: 16px;
+  right: 0px;
+  bottom : 4px;
+}
+
+a.track_button:link {
+  text-decoration: none;
+  color: #69c;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+a.track_button:visited {
+  text-decoration: none;
+  color: #69c;
+}
+
+a.track_button:hover {
+  text-decoration: none;
+  color: #c96;
+}
+
+.track .album_title, .track .artist {
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: #666;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+#play_list {
+  float: left;
+  width: 250px;
+}
+
+#play_list a.track_button {
+  display: none;
+  float: left;
+}

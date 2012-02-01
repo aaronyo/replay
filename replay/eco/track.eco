@@ -1,0 +1,11 @@
+<div class="track" id="<%= @track.track_key %>">
+  <img class="track_cover" src="<%- @track.cover_url %>" />
+  <div class="track_info">
+    <div class="artist"><%= @track.artist %></div>
+    <div class="album_title"> <%= @track.album_title %></div>
+    <div class="track_title"><%= @track.track_title %></div>
+    <a class="track_button add" href="#">+</a>
+    <a class="track_button play" href="#">&gt;</a>
+    <a class="track_button bump" href="#">b</a>
+  </div>
+</div>

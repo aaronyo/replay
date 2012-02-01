@@ -25,4 +25,5 @@ class RdioService(object):
                  'track_number': rt['trackNum'],
                  'album_key': rt['albumKey'],
                  'artist_key': rt['artistKey'],
-                 'track_key': rt['key']}
+                 'track_key': rt['key'],
+                 'duration': rt['duration']}
