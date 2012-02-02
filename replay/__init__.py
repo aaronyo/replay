@@ -12,5 +12,8 @@ def main(global_config, **settings):
     config.add_route('track-search', '/track-search')
     config.add_route('similar-tracks', '/similar-tracks')
     config.add_route('bookmarklet', '/bookmarklet')
+    config.add_route('playlists', '/playlists')
+    config.add_route('playlist-tracks', '/playlist-tracks')
+    config.add_route('oauth', '/oauth')
     config.scan()
     return config.make_wsgi_app()

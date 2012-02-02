@@ -1,15 +1,16 @@
 #browse_list {
-  float: left;
-  width: 500px;
-  margin-right: 40px;
+  position: absolute;
+  top: 100px;
+  left: 10px;
+  width: 620px;
 }
 
 .track { 
   float: left;
-  width: 240px;
+  width: 280px;
   height: 50px;
   margin-bottom: 10px;
-  margin-right: 10px;
+  margin-right: 30px;
  }
 
 .track_cover {
@@ -89,12 +90,25 @@ a.track_button:hover {
   text-overflow: ellipsis
 }
 
-#play_list {
-  float: left;
-  width: 250px;
+#playlist_container {
+  position: absolute;
+  top: 50px;
+  left: 650px;
+  width: 280px;
 }
 
-#play_list a.track_button {
+#playlist_select_container {
+  position: relative;
+  float: left;
+}
+
+#playlist {
+  position: absolute;
+  top: 50px;
+  width: 280px;
+}
+
+#playlist a.track_button {
   display: none;
   float: left;
 }

@@ -17,9 +17,17 @@ class GUIPlayer
   play: (track_key) =>
     @rdio_player.play(track_key)
     
-  _rdio_position_changed: (e, position) =>
-    #tick_width = parseInt( $('#position_bar #tick').css 'width' )
-    tick_width = position/@current_track.duration * @bar_width
+  _rdio_position_changed: (e, position) =>    
+    format_time = (seconds) ->
+      zero_pad = (num) ->
+        if num < 10 then return "0#{num}" else return num
+      min = Math.floor(seconds / 60)
+      sec = zero_pad( Math.floor(seconds % 60) )
+      return "#{min}:#{sec}"
+    dur = @current_track.duration
+    tick_width = position/dur * @bar_width
+    $('#time_elapsed').html format_time( position )
+    $('#time_remaining').html format_time( dur - position )    
     $('#position_bar #tick').css 'width', tick_width
     
   _rdio_track_changed: (e, track, position) =>
@@ -42,6 +50,16 @@ class APIPlayer
     window.API.player.play(track_key)
 
 
+call_playlists = ->
+  request = $.get '/playlists'
+  request.success load_playlists
+  request.error (req, status, error) -> $('body').append 'Error: ' + error
+
+call_playlist_tracks = (playlist_key) ->
+  request = $.get '/playlist-tracks', {playlist_key: playlist_key}
+  request.success load_playlist_tracks
+  request.error (req, status, error) -> $('body').append 'Error: ' + error
+
 call_search = ->
   request = $.get '/track-search', {query: $('#track_search_field').val()}
   request.success (data) -> g.current_tracks = data
@@ -57,6 +75,16 @@ call_similar_tracks = (track_key) ->
   request.error (req, status, error) -> $('body').append 'Error: ' + error
 
 window.call_similar_tracks = call_similar_tracks
+
+load_playlists = (data) ->
+  for playlist in data
+    opt = "<option value=#{ playlist.key }> #{ playlist.name } </option>"
+    $('#playlist_select').append opt
+
+load_playlist_tracks = (data) ->
+  $('#playlist').empty()
+  for t in data
+    $('#playlist').append($(window.ecoTemplates['track'] {'track': t}))
   
 follow_track = (track_key) ->
   tracks = g.current_tracks
@@ -76,7 +104,7 @@ add_track = (track_key) ->
   tracks = g.current_tracks
   for t in tracks
     if t.track_key == track_key
-      $('#play_list').append($(window.ecoTemplates['track'] {'track': t}))
+      $('#playlist').append($(window.ecoTemplates['track'] {'track': t}))
       break
     
 update_tracks = (data) ->
@@ -122,6 +150,10 @@ jQuery ($) ->
     call_similar_tracks track_key
   else if context == 'home'
     g.player = new GUIPlayer g._playback_token
-#  $('#track_search_btn').click call_search
-#  $('#play_list' ).sortable();
-#  $('#play_list').disableSelection();
+  call_playlists()
+  $('#track_search_btn').click call_search
+  $('#playlist' ).sortable();
+  $('#playlist').disableSelection();
+  $('#playlist_select').change ->
+#    list_key = $("#playlist_select option:selected").val()
+    call_playlist_tracks @value

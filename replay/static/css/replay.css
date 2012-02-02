@@ -1,7 +1,6 @@
 body {
   margin-left: 20px;
   font-size: 13px;
-  width: 1000px;
   font-family: arial, sans-serif;
   white-space: nowrap; 
 }
@@ -11,69 +10,19 @@ body {
 }
 
 #track_search {
-  float: left;
-  margin-bottom:20px;
-  margin-right:60px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 #track_search_field {
-    width: 200px
+    width: 220px;
+    margin-right: 5px;
 }
 
-#player {
-  float: left;
-  margin-top: 6px;
-  vertical-align: middle;
-  width: 500px;
-}
-
-#player #time_expired {
-  float: left;
+#track_search_btn {
   width: 50px;
-  text-align: right;
-  font-size: 11px;
-  font-weight: bold;
-  color: #69C;
 }
-
-#player #time_left {
-  float: left;
-  width: 50px;
-  text-align: left;
-  font-size:11px;
-  color: #9CF;
-  font-weight: bold;
-}
-
-#player #position_bar{
-  float: left;
-  width: 200px;
-  height: 10px;
-  margin-right: 4px;
-  margin-left: 4px;
-  margin-top: 1px;
-  background-color: #9CF;
-  vertical-align: middle;
-  position:relative;
-  border-radius: 4px;
-}
-
-
-#player #position_bar #tick {
-  width: 0px;
-  height: 6px;
-  border-radius: 4px;
-  background-color: #69C;
-  position:absolute;
-  left: 0px;
-  top: 2px;
-}
-
-#player #track_title {
-  float: left;
-  color: #69C;
-}
-
 
 
 

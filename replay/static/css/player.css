@@ -1,0 +1,54 @@
+#player {
+  position: absolute;
+  top: 10px;
+  left: 650px;
+  vertical-align: middle;
+}
+
+#player #time_elapsed {
+  float: left;
+  text-align: right;
+  width: 25px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #69C;
+}
+
+#player #time_remaining {
+  float: left;
+  text-align: left;
+  font-size:11px;
+  color: #9CF;
+  font-weight: bold;
+}
+
+#player #position_containter {
+  float: left;
+  width: 200px;
+  margin: 1px 5px 0px 5px;
+}
+
+#player #position_bar{
+  float: left;
+  width: 200px;
+  height: 10px;
+  margin-bottom: 2px;
+  background-color: #9CF;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#player #position_bar #tick {
+  width: 0px;
+  height: 6px;
+  margin-top: 2px;
+  border-radius: 4px;
+  background-color: #69C;
+}
+
+#player #track_title {
+  float: left;
+  color: #69C;
+  top: 16px;
+  font-size:11px;
+}

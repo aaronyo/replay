@@ -1,4 +1,6 @@
 from pyramid.view import view_config
+from pyramid import httpexceptions
+
 from .lib import rdio_service
 from .lib import echo_service
 
@@ -22,6 +24,8 @@ def _get_echo_service():
     
 @view_config(route_name='home', renderer='home.mak')
 def home(request):
+    if not _get_music_service().authenticated():
+        return httpexceptions.HTTPFound( _get_music_service().begin_authentication('http://localhost:6543/oauth') )
     style = request.params.get('style', 'small')
     return {'track_style': style+'_covers'}
 
@@ -55,3 +59,18 @@ def similar_tracks(request):
     
     print "Result: %s" % len(results)
     return results
+    
+@view_config(route_name='playlists', renderer='json')
+def playlists(request):
+    return _get_music_service().get_playlists()
+
+@view_config(route_name='playlist-tracks', renderer='json')
+def playlist_tracks(request):
+    key = request.params['playlist_key']
+    return _get_music_service().get_playlist_tracks(key)
+
+@view_config(route_name='oauth', renderer='json')
+def oauth(request):
+    verifier = request.params['oauth_verifier']
+    _get_music_service().complete_authentication(verifier)
+    return httpexceptions.HTTPFound('/')
