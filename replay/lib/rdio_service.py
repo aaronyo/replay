@@ -37,6 +37,11 @@ class RdioService(object):
             # Replay only works with playlists that you own -- not with
             # collaborations or subscriptions
             return playlists['owned']
+    
+    def add_to_playlist(self, playlist_key, track_keys):
+        self.rdio_websvc.call( 'addToPlaylist',
+                               playlist=playlist_key,
+                               tracks=','.join(track_keys) )
         
     @staticmethod
     def _build_track(rdio_track):

@@ -14,6 +14,7 @@ def main(global_config, **settings):
     config.add_route('bookmarklet', '/bookmarklet')
     config.add_route('playlists', '/playlists')
     config.add_route('playlist-tracks', '/playlist-tracks')
+    config.add_route('add-to-playlist', '/add-to-playlist')
     config.add_route('oauth', '/oauth')
     config.scan()
     return config.make_wsgi_app()

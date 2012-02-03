@@ -1,11 +1,8 @@
 # valid for local host
 g = {}
 g._playback_token = 'GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc='
-window.main_g = g
-base_url = 'http://localhost:6543'
 
-
-class GUIPlayer
+class Player
   constructor: (playback_token) ->
     @rdio_player = $('#rdio_player').rdio playback_token
     @current_track = null
@@ -43,19 +40,23 @@ class GUIPlayer
     console.log(pos)
     @rdio_player.seek(pos)
     
-class APIPlayer
-  constructor: (playback_token) ->
-
-  play: (track_key) =>
-    window.API.player.play(track_key)
-
-
+#class Playlist
+#  constructor: (playlist_elm_id, playlist_model)
+#    @playlist_jq = $('playlist_elem')
+#    @_fill(playlist_model)
+#    
+#  _fill(playlist_model):
+  
+    
 call_playlists = ->
   request = $.get '/playlists'
   request.success load_playlists
   request.error (req, status, error) -> $('body').append 'Error: ' + error
 
 call_playlist_tracks = (playlist_key) ->
+  if playlist_key == '999select999'
+    load_playlist_tracks {}
+    return
   request = $.get '/playlist-tracks', {playlist_key: playlist_key}
   request.success load_playlist_tracks
   request.error (req, status, error) -> $('body').append 'Error: ' + error
@@ -66,9 +67,15 @@ call_search = ->
   request.success show_tracks 
   request.error (req, status, error) -> $('body').append 'Error: ' + error
   
+call_add_to_playlist = (playlist_key, track_key)->
+  playlist_processing()
+  request = $.get( '/add-to-playlist',
+    { playlist_key: playlist_key, track_key: track_key } )
+  request.error (req, status, error) -> $('body').append 'Error: ' + error
+  playlist_processing_done()
+  
 call_similar_tracks = (track_key) ->
-  request = $.get base_url + '/similar-tracks',
-    {'track_key': track_key}
+  request = $.get '/similar-tracks', {'track_key': track_key}
   console.log(request)
   request.success update_tracks
   request.success -> show_tracks g.current_tracks
@@ -76,7 +83,15 @@ call_similar_tracks = (track_key) ->
 
 window.call_similar_tracks = call_similar_tracks
 
+playlist_processing = ->
+
+
+playlist_processing_done = ->
+
+
 load_playlists = (data) ->
+  $('#playlist_select').empty()
+  $('#playlist_select').append '<option value="999select999">-- select --</option>'
   for playlist in data
     opt = "<option value=#{ playlist.key }> #{ playlist.name } </option>"
     $('#playlist_select').append opt
@@ -106,6 +121,9 @@ add_track = (track_key) ->
     if t.track_key == track_key
       $('#playlist').append($(window.ecoTemplates['track'] {'track': t}))
       break
+  playlist_key = $("#playlist_select").val()
+  console.log playlist_key
+  call_add_to_playlist playlist_key, track_key
     
 update_tracks = (data) ->
   if g.selected_track?
@@ -124,7 +142,6 @@ show_tracks = (tracks) ->
   track_divs = []
   for track in tracks
     track_divs.push $(window.ecoTemplates['track'] {'track': track})
-#  console.log(track_divs)
   for td in track_divs
     if not (g.selected_track? and g.selected_track.track_key == td.attr('id'))
       td.fadeTo(0, 0.0)
@@ -149,11 +166,8 @@ jQuery ($) ->
     track_key = $('#track_key').attr('value')
     call_similar_tracks track_key
   else if context == 'home'
-    g.player = new GUIPlayer g._playback_token
+    g.player = new Player g._playback_token
   call_playlists()
   $('#track_search_btn').click call_search
-  $('#playlist' ).sortable();
   $('#playlist').disableSelection();
-  $('#playlist_select').change ->
-#    list_key = $("#playlist_select option:selected").val()
-    call_playlist_tracks @value
+  $('#playlist_select').change -> call_playlist_tracks @value

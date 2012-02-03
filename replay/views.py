@@ -69,6 +69,12 @@ def playlist_tracks(request):
     key = request.params['playlist_key']
     return _get_music_service().get_playlist_tracks(key)
 
+@view_config(route_name='add-to-playlist', renderer='json')
+def add_to_playlist(request):
+    pl_key = request.params['playlist_key']
+    track_keys = request.params.getall('track_key')
+    return _get_music_service().add_to_playlist(pl_key, track_keys)
+
 @view_config(route_name='oauth', renderer='json')
 def oauth(request):
     verifier = request.params['oauth_verifier']
