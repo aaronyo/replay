@@ -40,25 +40,43 @@ class Player
     console.log(pos)
     @rdio_player.seek(pos)
     
-#class Playlist
-#  constructor: (playlist_elm_id, playlist_model)
-#    @playlist_jq = $('playlist_elem')
-#    @_fill(playlist_model)
-#    
-#  _fill(playlist_model):
+
+PlaylistWidget =
+  _create: () ->
+    @element.sortable change: -> @_trigger( 'change', null, @element.toArray() )
+    @element.disableSelection()
+    @track_template = window.ecoTemplates['track']
+    
+  fill: (playlist_key, tracks) -> 
+    @element.empty()
+    @tracks = tracks
+    @playlist_key = playlist_key
+    for t in @tracks
+      @element.append( @track_template track:t )
+  
+  add: (track) ->
+    @tracks.push(track)
+    @element.append( @track_template track:track )
+    @_trigger('add', null, {playlist_key:@playlist_key, track:track})
+    
+  empty: () ->
+    @fill null, {}
+
+  _destroy: ->
+    @element.empty()
   
     
 call_playlists = ->
   request = $.get '/playlists'
-  request.success load_playlists
+  request.success load_playlists 
   request.error (req, status, error) -> $('body').append 'Error: ' + error
 
 call_playlist_tracks = (playlist_key) ->
   if playlist_key == '999select999'
-    load_playlist_tracks {}
+    $('#playlist').playlist 'empty' 
     return
   request = $.get '/playlist-tracks', {playlist_key: playlist_key}
-  request.success load_playlist_tracks
+  request.success (data) -> $('#playlist').playlist( 'fill', playlist_key, data)
   request.error (req, status, error) -> $('body').append 'Error: ' + error
 
 call_search = ->
@@ -67,12 +85,12 @@ call_search = ->
   request.success show_tracks 
   request.error (req, status, error) -> $('body').append 'Error: ' + error
   
-call_add_to_playlist = (playlist_key, track_key)->
-  playlist_processing()
+handle_playlist_add = (event, data)->
+  console.log event
+  console.log data
   request = $.get( '/add-to-playlist',
-    { playlist_key: playlist_key, track_key: track_key } )
+    { playlist_key: data.playlist_key, track_key: data.track.track_key } )
   request.error (req, status, error) -> $('body').append 'Error: ' + error
-  playlist_processing_done()
   
 call_similar_tracks = (track_key) ->
   request = $.get '/similar-tracks', {'track_key': track_key}
@@ -95,11 +113,6 @@ load_playlists = (data) ->
   for playlist in data
     opt = "<option value=#{ playlist.key }> #{ playlist.name } </option>"
     $('#playlist_select').append opt
-
-load_playlist_tracks = (data) ->
-  $('#playlist').empty()
-  for t in data
-    $('#playlist').append($(window.ecoTemplates['track'] {'track': t}))
   
 follow_track = (track_key) ->
   tracks = g.current_tracks
@@ -116,14 +129,10 @@ follow_track = (track_key) ->
   return false
 
 add_track = (track_key) ->
-  tracks = g.current_tracks
-  for t in tracks
+  for t in g.current_tracks
     if t.track_key == track_key
-      $('#playlist').append($(window.ecoTemplates['track'] {'track': t}))
+      $('#playlist').playlist('add', t)
       break
-  playlist_key = $("#playlist_select").val()
-  console.log playlist_key
-  call_add_to_playlist playlist_key, track_key
     
 update_tracks = (data) ->
   if g.selected_track?
@@ -160,6 +169,7 @@ show_tracks = (tracks) ->
       
 
 jQuery ($) ->
+  $.widget 'replay.playlist', PlaylistWidget
   context = $('#context').attr('value')
   if context == 'bookmarklet'
     g.player = new APIPlayer
@@ -169,5 +179,5 @@ jQuery ($) ->
     g.player = new Player g._playback_token
   call_playlists()
   $('#track_search_btn').click call_search
-  $('#playlist').disableSelection();
+  $('#playlist').playlist 'add': handle_playlist_add
   $('#playlist_select').change -> call_playlist_tracks @value
